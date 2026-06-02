@@ -1,7 +1,7 @@
-<h1 align="center">Customer Purchase Prediction — Ensemble</h1>
+<h1 align="center">Customer Purchase Prediction</h1>
 
 <p align="center">
-  <code>Python</code> &nbsp;&nbsp; <code>NumPy</code> &nbsp;&nbsp; <code>Pandas</code> &nbsp;&nbsp; <code>Matplotlib</code> &nbsp;&nbsp; <code>Machine Learning</code>
+  <code>Python</code> &nbsp;&nbsp; <code>Machine Learning from Scratch</code> &nbsp;&nbsp; <code>Classification</code>
 </p>
 
 <p align="center">
@@ -12,101 +12,133 @@
 
 ### Overview
 
-A from-scratch implementation and comparative study of three supervised machine learning classifiers — Decision Tree, Naive Bayes, and a Hybrid AdaBoost-NB ensemble — built entirely in Python without any ML libraries.
+A comparative study of three supervised machine learning classifiers — Decision Tree, Naive Bayes, and a Hybrid AdaBoost-NB ensemble — built entirely from scratch in Python without any ML libraries. Applied to a 1,500-record customer behavioural dataset to predict whether a customer will make a purchase.
 
-**Objective:** Predict whether a customer will make a purchase based on 8 behavioural and demographic features from a dataset of 1,500 records (`PurchaseStatus` — binary classification).
+A distinguishing feature of this project is the Hybrid AdaBoost-NB ensemble, which uses weighted frequency tables to make Naive Bayes genuinely sensitive to AdaBoost's iterative sample reweighting — producing a model that demonstrably differs from standalone Naive Bayes and illuminates the trade-offs of ensemble boosting on probabilistic base learners.
 
-The project was developed as part of the Principles of Artificial Intelligence course and demonstrates the implementation of core ML algorithms from first principles, including entropy-based splitting, probabilistic inference with Laplace smoothing, and boosting ensembles.
+All algorithms implemented using only: `pandas`, `numpy`, `math`, `random`, `matplotlib`, and `collections`.
 
 ---
 
-### Pipeline
+### Dataset
 
 <table style="border: none; border-collapse: collapse;">
   <tr>
-    <td style="border: none; padding: 6px 16px 6px 0;"><strong>1</strong></td>
-    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Data Loading & Exploration</strong></td>
-    <td style="border: none; padding: 6px 0;">Load dataset, inspect class distribution and feature types</td>
+    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Source</strong></td>
+    <td style="border: none; padding: 6px 0;">customer_purchase_data.csv</td>
   </tr>
   <tr>
-    <td style="border: none; padding: 6px 16px 6px 0;"><strong>2</strong></td>
-    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Preprocessing & Feature Engineering</strong></td>
-    <td style="border: none; padding: 6px 0;">Min-Max normalisation; categorical binning for NB and AdaBoost</td>
+    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Records</strong></td>
+    <td style="border: none; padding: 6px 0;">1,500 customer records</td>
   </tr>
   <tr>
-    <td style="border: none; padding: 6px 16px 6px 0;"><strong>3</strong></td>
-    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Train-Test Split</strong></td>
-    <td style="border: none; padding: 6px 0;">80/20 split (1,200 train / 300 test) with <code>seed=42</code>; identical partitions across all models</td>
+    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Features</strong></td>
+    <td style="border: none; padding: 6px 0;">8 behavioural and demographic features (Age, Annual Income, Time Spent on Website, Number of Purchases, Product Category, Loyalty Program, Discounts Availed, Gender)</td>
   </tr>
   <tr>
-    <td style="border: none; padding: 6px 16px 6px 0;"><strong>4</strong></td>
-    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Model Implementation & Training</strong></td>
-    <td style="border: none; padding: 6px 0;">Decision Tree, Naive Bayes, and Hybrid AdaBoost-NB built from scratch</td>
+    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Target</strong></td>
+    <td style="border: none; padding: 6px 0;">Purchase status — No Purchase (0) vs Purchase (1)</td>
   </tr>
   <tr>
-    <td style="border: none; padding: 6px 16px 6px 0;"><strong>5</strong></td>
-    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Feature Importance Analysis</strong></td>
-    <td style="border: none; padding: 6px 0;">Cumulative Information Gain tracked per feature across tree splits</td>
+    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Class Distribution</strong></td>
+    <td style="border: none; padding: 6px 0;">57% No Purchase · 43% Purchase (moderate imbalance)</td>
   </tr>
   <tr>
-    <td style="border: none; padding: 6px 16px 6px 0;"><strong>6</strong></td>
-    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Evaluation & Results</strong></td>
-    <td style="border: none; padding: 6px 0;">Accuracy, Precision, Recall, F1-Score computed manually; confusion matrices plotted</td>
+    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Missing Values</strong></td>
+    <td style="border: none; padding: 6px 0;">None — all 1,500 records complete</td>
   </tr>
   <tr>
-    <td style="border: none; padding: 6px 16px 6px 0;"><strong>7</strong></td>
-    <td style="border: none; padding: 6px 24px 6px 0;"><strong>K-Fold Cross-Validation</strong></td>
-    <td style="border: none; padding: 6px 0;">5-Fold CV for robust, partition-independent performance estimates</td>
-  </tr>
-  <tr>
-    <td style="border: none; padding: 6px 16px 6px 0;"><strong>8</strong></td>
-    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Learning Curves</strong></td>
-    <td style="border: none; padding: 6px 0;">Training vs. validation F1 plotted across increasing dataset sizes</td>
-  </tr>
-  <tr>
-    <td style="border: none; padding: 6px 16px 6px 0;"><strong>9</strong></td>
-    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Final Comparison</strong></td>
-    <td style="border: none; padding: 6px 0;">Side-by-side metric summary with task-based model recommendations</td>
+    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Train / Test Split</strong></td>
+    <td style="border: none; padding: 6px 0;">80/20 (1,200 train · 300 test · seed=42)</td>
   </tr>
 </table>
 
 ---
 
-### Models
+### Classifiers Implemented
 
 <table style="border: none; border-collapse: collapse;">
   <tr>
     <td style="border: none; padding: 6px 24px 6px 0;"><strong>Decision Tree</strong></td>
-    <td style="border: none; padding: 6px 0;">Recursive binary splitting using Information Gain (entropy). Stopping conditions: pure node · depth ≥ 8 · fewer than 5 samples</td>
+    <td style="border: none; padding: 6px 0;">Recursive entropy-based splitting with Information Gain; max_depth=8, min_samples=5; feature importance tracked via cumulative information gain across all splits</td>
   </tr>
   <tr>
     <td style="border: none; padding: 6px 24px 6px 0;"><strong>Naive Bayes</strong></td>
-    <td style="border: none; padding: 6px 0;">Frequency-based probabilistic classifier with Laplace smoothing (α=1). Features discretised into labelled bins before training</td>
+    <td style="border: none; padding: 6px 0;">Frequency-based classifier with weighted Laplace smoothing; continuous features discretised into labelled bins (Age, AnnualIncome, TimeSpentOnWebsite, NumberOfPurchases); supports sample_weight parameter for use as AdaBoost base learner</td>
   </tr>
   <tr>
     <td style="border: none; padding: 6px 24px 6px 0;"><strong>Hybrid AdaBoost-NB</strong></td>
-    <td style="border: none; padding: 6px 0;">Boosting ensemble using Naive Bayes as the weak learner across T=20 rounds. Architecturally independent of the standalone NB model</td>
+    <td style="border: none; padding: 6px 0;">AdaBoost ensemble with weighted Naive Bayes as the base learner; T=20 boosting rounds; sample weights propagated via weighted frequency tables so each weak learner genuinely responds to the reweighted distribution; error guard (error ≥ 0.5) prevents sign reversal</td>
   </tr>
 </table>
 
 ---
 
-### Recommendations
+### Analyses Included
 
 <table style="border: none; border-collapse: collapse;">
   <tr>
-    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Revenue Maximisation</strong></td>
-    <td style="border: none; padding: 6px 0;">Decision Tree — highest F1 and Recall, lowest false negatives</td>
+    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Feature Importance</strong></td>
+    <td style="border: none; padding: 6px 0;">Cumulative normalised information gain per feature — identifies which behavioural and demographic signals most strongly predict purchase intent</td>
   </tr>
   <tr>
-    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Cost-Sensitive Campaigns</strong></td>
-    <td style="border: none; padding: 6px 0;">Naive Bayes — highest Precision, lowest false positives</td>
+    <td style="border: none; padding: 6px 24px 6px 0;"><strong>5-Fold Cross-Validation</strong></td>
+    <td style="border: none; padding: 6px 0;">Mean F1-Score and standard deviation across 5 folds for all three models — provides statistically robust performance estimates beyond a single split</td>
   </tr>
   <tr>
-    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Balanced Robustness</strong></td>
-    <td style="border: none; padding: 6px 0;">Hybrid AdaBoost-NB — best overall balance across all metrics</td>
+    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Learning Curves</strong></td>
+    <td style="border: none; padding: 6px 0;">Training vs validation F1-Score across increasing training set sizes — diagnoses overfitting, underfitting, and convergence behaviour per model</td>
   </tr>
 </table>
+
+---
+
+### Results
+
+<table style="border: none; border-collapse: collapse;">
+  <tr>
+    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Model</strong></td>
+    <td style="border: none; padding: 6px 20px 6px 0;"><strong>Accuracy</strong></td>
+    <td style="border: none; padding: 6px 20px 6px 0;"><strong>Precision</strong></td>
+    <td style="border: none; padding: 6px 20px 6px 0;"><strong>Recall</strong></td>
+    <td style="border: none; padding: 6px 0;"><strong>F1-Score</strong></td>
+  </tr>
+  <tr>
+    <td style="border: none; padding: 6px 24px 6px 0;">Decision Tree</td>
+    <td style="border: none; padding: 6px 20px 6px 0;">0.9033</td>
+    <td style="border: none; padding: 6px 20px 6px 0;">0.8672</td>
+    <td style="border: none; padding: 6px 20px 6px 0;">0.9024</td>
+    <td style="border: none; padding: 6px 0;">0.8845</td>
+  </tr>
+  <tr>
+    <td style="border: none; padding: 6px 24px 6px 0;">Hybrid AdaBoost-NB</td>
+    <td style="border: none; padding: 6px 20px 6px 0;">0.8633</td>
+    <td style="border: none; padding: 6px 20px 6px 0;">0.8475</td>
+    <td style="border: none; padding: 6px 20px 6px 0;">0.8130</td>
+    <td style="border: none; padding: 6px 0;">0.8299</td>
+  </tr>
+  <tr>
+    <td style="border: none; padding: 6px 24px 6px 0;">Naive Bayes</td>
+    <td style="border: none; padding: 6px 20px 6px 0;">0.7367</td>
+    <td style="border: none; padding: 6px 20px 6px 0;">0.9231</td>
+    <td style="border: none; padding: 6px 20px 6px 0;">0.3902</td>
+    <td style="border: none; padding: 6px 0;">0.5486</td>
+  </tr>
+</table>
+
+F1-Score is the primary evaluation metric, selected for its ability to penalise classifiers that sacrifice Precision for Recall on this moderately imbalanced dataset (57/43).
+
+**Recommended model: Decision Tree** — leads on F1-Score (0.8845) and Recall (0.9024), making it the primary recommendation when minimising missed buyers is the business priority. **Hybrid AdaBoost-NB is the recommended ensemble** — it substantially recovers the Recall lost by weighted Naive Bayes (0.8130 vs 0.3902) and demonstrates that boosting can meaningfully compensate for a destabilised probabilistic base learner. Naive Bayes (weighted) leads on Precision (0.9231) and is preferred only in highly cost-sensitive campaigns where false positives are extremely costly and low Recall is acceptable.
+
+---
+
+### Key Findings
+
+- **Decision Tree is the recommended model** under F1-Score (primary metric) and Recall — it misses the fewest actual buyers and is the strongest choice when revenue maximisation is the business objective
+- **Hybrid AdaBoost-NB demonstrates the core value of boosting** — weighted Naive Bayes alone collapses to low Recall (0.3902) under AdaBoost's reweighting pressure, but the ensemble recovers to F1 0.8299 by aggregating 20 weighted weak learners, each responding to a different reweighted distribution
+- **Weighted Naive Bayes achieves the highest Precision (0.9231)** at the cost of very low Recall — a meaningful trade-off for campaigns where each customer contact is expensive and false positives must be minimised
+- **Propagating sample weights through frequency tables** is essential for AdaBoost-NB to function correctly — without weighted counts, every weak learner is identical and the ensemble reduces to plain Naive Bayes
+- **AnnualIncome, TimeSpentOnWebsite, and NumberOfPurchases** are the strongest purchase predictors by information gain — consistent with the intuition that engaged, high-income repeat visitors are the most likely buyers
 
 ---
 
@@ -115,53 +147,17 @@ The project was developed as part of the Principles of Artificial Intelligence c
 <table style="border: none; border-collapse: collapse;">
   <tr>
     <td style="border: none; padding: 6px 24px 6px 0;"><strong>Language</strong></td>
-    <td style="border: none; padding: 6px 0;">Python 3</td>
+    <td style="border: none; padding: 6px 0;">Python</td>
   </tr>
   <tr>
     <td style="border: none; padding: 6px 24px 6px 0;"><strong>Environment</strong></td>
-    <td style="border: none; padding: 6px 0;">Google Colab (Jupyter Notebook)</td>
+    <td style="border: none; padding: 6px 0;">Google Colab</td>
   </tr>
   <tr>
     <td style="border: none; padding: 6px 24px 6px 0;"><strong>Libraries</strong></td>
-    <td style="border: none; padding: 6px 0;">NumPy · Pandas · Matplotlib · math · random · collections</td>
-  </tr>
-  <tr>
-    <td style="border: none; padding: 6px 24px 6px 0;"><strong>ML Libraries Used</strong></td>
-    <td style="border: none; padding: 6px 0;">None — all algorithms implemented from scratch</td>
+    <td style="border: none; padding: 6px 0;">pandas · numpy · math · random · matplotlib · collections</td>
   </tr>
 </table>
-
----
-
-### Dataset
-
-<table style="border: none; border-collapse: collapse;">
-  <tr>
-    <td style="border: none; padding: 6px 24px 6px 0;"><strong>File</strong></td>
-    <td style="border: none; padding: 6px 0;"><code>customer_purchase_data.csv</code></td>
-  </tr>
-  <tr>
-    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Records</strong></td>
-    <td style="border: none; padding: 6px 0;">1,500 customer records</td>
-  </tr>
-  <tr>
-    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Features</strong></td>
-    <td style="border: none; padding: 6px 0;">8 behavioural and demographic inputs (Age, AnnualIncome, TimeSpentOnWebsite, NumberOfPurchases, and others)</td>
-  </tr>
-  <tr>
-    <td style="border: none; padding: 6px 24px 6px 0;"><strong>Target</strong></td>
-    <td style="border: none; padding: 6px 0;"><code>PurchaseStatus</code> — binary (0: No Purchase, 1: Purchase)</td>
-  </tr>
-</table>
-
----
-
-### How to Run
-
-1. Clone the repository
-2. Upload `customer_purchase_data.csv` when prompted by the Colab file picker
-3. Run all cells in order in Google Colab or a local Jupyter environment
-4. Results, plots, and the final comparison table will be generated inline
 
 ---
 
